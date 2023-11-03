@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-//go:generate mockgen -source=repository.go -destination=repository_mock.go -package=repository
+//go:generate mockgen -source=repo.go -destination=repository_mock.go -package=repository
 
 type Repo struct {
 	DB *gorm.DB
