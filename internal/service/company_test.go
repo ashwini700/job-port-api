@@ -79,7 +79,7 @@ func TestService_AddCompanyDetails(t *testing.T) {
 	}
 }
 
-func TestService_ViewCompanyDetails(t *testing.T) {
+func TestService_FetchCompanyDetails(t *testing.T) {
 	type args struct {
 		ctx context.Context
 		cid uint64
@@ -130,7 +130,7 @@ func TestService_ViewCompanyDetails(t *testing.T) {
 			}
 			s, _ := NewService(mockRepo, &auth.Auth{})
 
-			got, err := s.ViewCompanyDetails(tt.args.ctx, tt.args.cid)
+			got, err := s.FetchCompanyDetails(tt.args.ctx, tt.args.cid)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Service.ViewCompanyDetails() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -142,7 +142,7 @@ func TestService_ViewCompanyDetails(t *testing.T) {
 	}
 }
 
-func TestService_ViewAllCompanies(t *testing.T) {
+func TestService_FetchAllCompanies(t *testing.T) {
 	type args struct {
 		ctx context.Context
 	}
@@ -203,7 +203,7 @@ func TestService_ViewAllCompanies(t *testing.T) {
 			}
 			s, _ := NewService(mockRepo, &auth.Auth{})
 
-			got, err := s.ViewAllCompanies(tt.args.ctx)
+			got, err := s.FetchAllCompanies(tt.args.ctx)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Service.ViewAllCompanies() error = %v, wantErr %v", err, tt.wantErr)
 				return

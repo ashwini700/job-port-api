@@ -2,7 +2,9 @@ package service
 
 import (
 	"context"
+
 	"job-port-api/internal/models"
+
 )
 
 func (s *Service) AddJobDetails(ctx context.Context, jobData models.Job) (models.Job, error) {
@@ -12,8 +14,8 @@ func (s *Service) AddJobDetails(ctx context.Context, jobData models.Job) (models
 	}
 	return jobData, nil
 }
-func (s *Service) ViewJobDetailsById(ctx context.Context, cid uint64) (models.Job, error) {
-	jobData, err := s.UserRepo.Viewjob(ctx, cid)
+func (s *Service) FetchJobDetailsById(ctx context.Context, cid uint64) (models.Job, error) {
+	jobData, err := s.UserRepo.Fetchjob(ctx, cid)
 	if err != nil {
 		return models.Job{}, err
 	}
@@ -21,8 +23,8 @@ func (s *Service) ViewJobDetailsById(ctx context.Context, cid uint64) (models.Jo
 
 }
 
-func (s *Service) ViewAllJobPostings(ctx context.Context) ([]models.Job, error) {
-	jobData, err := s.UserRepo.ViewJobPostings(ctx)
+func (s *Service) FetchJobPosts(ctx context.Context) ([]models.Job, error) {
+	jobData, err := s.UserRepo.FetchJobPosts(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -30,8 +32,8 @@ func (s *Service) ViewAllJobPostings(ctx context.Context) ([]models.Job, error) 
 
 }
 
-func (s *Service) ViewJobDetails(ctx context.Context, cid uint64) ([]models.Job, error) {
-	jobData, err := s.UserRepo.ViewJobByCid(ctx, cid)
+func (s *Service) FetchJobDetails(ctx context.Context, cid uint64) ([]models.Job, error) {
+	jobData, err := s.UserRepo.FetchJobByCompanyId(ctx, cid)
 	if err != nil {
 		return nil, err
 	}
