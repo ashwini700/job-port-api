@@ -3,12 +3,14 @@ package repository
 import (
 	"context"
 	"errors"
-	"job-port-api/internal/models"
 
 	"github.com/rs/zerolog/log"
+
+	"job-port-api/internal/models"
+
 )
 
-func (r *Repo) Viewjob(ctx context.Context, cid uint64) (models.Job, error) {
+func (r *Repo) Fetchjob(ctx context.Context, cid uint64) (models.Job, error) {
 	var jobData models.Job
 	result := r.DB.Where("id = ?", cid).First(&jobData)
 	if result.Error != nil {
@@ -19,7 +21,7 @@ func (r *Repo) Viewjob(ctx context.Context, cid uint64) (models.Job, error) {
 
 }
 
-func (r *Repo) ViewJobPostings(ctx context.Context) ([]models.Job, error) {
+func (r *Repo) FetchJobPosts(ctx context.Context) ([]models.Job, error) {
 	var jobDetails []models.Job
 	result := r.DB.Find(&jobDetails)
 	if result.Error != nil {
@@ -30,7 +32,7 @@ func (r *Repo) ViewJobPostings(ctx context.Context) ([]models.Job, error) {
 
 }
 
-func (r *Repo) ViewJobByCid(ctx context.Context, cid uint64) ([]models.Job, error) {
+func (r *Repo) FetchJobByCompanyId(ctx context.Context, cid uint64) ([]models.Job, error) {
 	var jobDetails []models.Job
 	result := r.DB.Where("cid = ?", cid).Find(&jobDetails)
 	if result.Error != nil {

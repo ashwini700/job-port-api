@@ -2,20 +2,21 @@ package handlers
 
 import (
 	"encoding/json"
-	"job-port-api/internal/auth"
-	"job-port-api/internal/middleware"
-	"job-port-api/internal/models"
 	"net/http"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/rs/zerolog/log"
+
+	"job-port-api/internal/auth"
+	"job-port-api/internal/middleware"
+	"job-port-api/internal/models"
 )
 
-func (h *handler) ViewJobById(c *gin.Context) {
+func (h *handler) FetchJobById(c *gin.Context) {
 	ctx := c.Request.Context()
-	traceid, ok := ctx.Value(middleware.TraceIdKey).(string)
+	traceID, ok := ctx.Value(middleware.TraceIdKey).(string)
 	if !ok {
 		log.Error().Msg("traceid missing from context")
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
@@ -25,7 +26,7 @@ func (h *handler) ViewJobById(c *gin.Context) {
 	}
 	_, ok = ctx.Value(auth.Ctxkey).(jwt.RegisteredClaims)
 	if !ok {
-		log.Error().Str("Trace Id", traceid).Msg("login required")
+		log.Error().Str("Trace Id", traceID).Msg("login required")
 		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": http.StatusText(http.StatusUnauthorized)})
 		return
 	}
@@ -36,9 +37,9 @@ func (h *handler) ViewJobById(c *gin.Context) {
 		c.AbortWithStatusJSON(http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
 	}
 
-	jobData, err := h.service.ViewJobDetailsById(ctx, cid)
+	jobData, err := h.service.FetchJobDetailsById(ctx, cid)
 	if err != nil {
-		log.Error().Err(err).Str("trace id", traceid)
+		log.Error().Err(err).Str("trace id", traceID)
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
@@ -49,9 +50,9 @@ func (h *handler) ViewJobById(c *gin.Context) {
 
 }
 
-func (h *handler) ViewAllJobs(c *gin.Context) {
+func (h *handler) FetchAllJobs(c *gin.Context) {
 	ctx := c.Request.Context()
-	traceid, ok := ctx.Value(middleware.TraceIdKey).(string)
+	traceID, ok := ctx.Value(middleware.TraceIdKey).(string)
 	if !ok {
 		log.Error().Msg("traceid missing from context")
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
@@ -61,14 +62,14 @@ func (h *handler) ViewAllJobs(c *gin.Context) {
 	}
 	_, ok = ctx.Value(auth.Ctxkey).(jwt.RegisteredClaims)
 	if !ok {
-		log.Error().Str("Trace Id", traceid).Msg("login required")
+		log.Error().Str("Trace Id", traceID).Msg("login required")
 		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": http.StatusText(http.StatusUnauthorized)})
 		return
 	}
 
-	jobDetails, err := h.service.ViewAllJobPostings(ctx)
+	jobDetails, err := h.service.FetchJobPosts(ctx)
 	if err != nil {
-		log.Error().Err(err).Str("trace id", traceid)
+		log.Error().Err(err).Str("trace id", traceID)
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
@@ -78,19 +79,19 @@ func (h *handler) ViewAllJobs(c *gin.Context) {
 	c.JSON(http.StatusOK, jobDetails)
 }
 
-func (h *handler) ViewJobByCompanyId(c *gin.Context) {
+func (h *handler) FetchJobByCompanyId(c *gin.Context) {
 	ctx := c.Request.Context()
-	traceid, ok := ctx.Value(middleware.TraceIdKey).(string)
-	if !ok {
+	traceID, traceIDExist := ctx.Value(middleware.TraceIdKey).(string)
+	if !traceIDExist {
 		log.Error().Msg("traceid missing from context")
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
 			"error": http.StatusText(http.StatusInternalServerError),
 		})
 		return
 	}
-	_, ok = ctx.Value(auth.Ctxkey).(jwt.RegisteredClaims)
-	if !ok {
-		log.Error().Str("Trace Id", traceid).Msg("login required")
+	_, traceIDExist = ctx.Value(auth.Ctxkey).(jwt.RegisteredClaims)
+	if !traceIDExist {
+		log.Error().Str("Trace Id", traceID).Msg("login required")
 		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": http.StatusText(http.StatusUnauthorized)})
 		return
 	}
@@ -101,9 +102,9 @@ func (h *handler) ViewJobByCompanyId(c *gin.Context) {
 		c.AbortWithStatusJSON(http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
 	}
 
-	jobData, err := h.service.ViewJobDetails(ctx, cid)
+	jobData, err := h.service.FetchJobDetails(ctx, cid)
 	if err != nil {
-		log.Error().Err(err).Str("trace id", traceid)
+		log.Error().Err(err).Str("trace id", traceID)
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
@@ -116,17 +117,17 @@ func (h *handler) ViewJobByCompanyId(c *gin.Context) {
 
 func (h *handler) AddJob(c *gin.Context) {
 	ctx := c.Request.Context()
-	traceid, ok := ctx.Value(middleware.TraceIdKey).(string)
-	if !ok {
+	traceID, traceIDExist := ctx.Value(middleware.TraceIdKey).(string)
+	if !traceIDExist {
 		log.Error().Msg("traceid missing from context")
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
 			"error": http.StatusText(http.StatusInternalServerError),
 		})
 		return
 	}
-	_, ok = ctx.Value(auth.Ctxkey).(jwt.RegisteredClaims)
-	if !ok {
-		log.Error().Str("Trace Id", traceid).Msg("login required")
+	_, traceIDExist = ctx.Value(auth.Ctxkey).(jwt.RegisteredClaims)
+	if !traceIDExist {
+		log.Error().Str("Trace Id", traceID).Msg("login required")
 		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": http.StatusText(http.StatusUnauthorized)})
 		return
 	}
@@ -134,7 +135,7 @@ func (h *handler) AddJob(c *gin.Context) {
 
 	err := json.NewDecoder(c.Request.Body).Decode(&jobData)
 	if err != nil {
-		log.Error().Err(err).Str("trace id", traceid)
+		log.Error().Err(err).Str("trace id", traceID)
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error": "provide valid id ,jobrole and salary",
 		})
@@ -142,7 +143,7 @@ func (h *handler) AddJob(c *gin.Context) {
 	}
 	jobData, err = h.service.AddJobDetails(ctx, jobData)
 	if err != nil {
-		log.Error().Err(err).Str("trace id", traceid)
+		log.Error().Err(err).Str("trace id", traceID)
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})

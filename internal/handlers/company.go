@@ -2,9 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"job-port-api/internal/auth"
-	"job-port-api/internal/middleware"
-	"job-port-api/internal/models"
 	"net/http"
 	"strconv"
 
@@ -12,21 +9,27 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/rs/zerolog/log"
+
+	"job-port-api/internal/auth"
+	"job-port-api/internal/middleware"
+	"job-port-api/internal/models"
+
 )
 
+// AddCompany handles the addition of a company
 func (h *handler) AddCompany(c *gin.Context) {
 	ctx := c.Request.Context()
-	traceid, ok := ctx.Value(middleware.TraceIdKey).(string)
-	if !ok {
+	traceID, traceIDExists := ctx.Value(middleware.TraceIdKey).(string)
+	if !traceIDExists {
 		log.Error().Msg("traceid missing from context")
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
 			"error": http.StatusText(http.StatusInternalServerError),
 		})
 		return
 	}
-	_, ok = ctx.Value(auth.Ctxkey).(jwt.RegisteredClaims)
-	if !ok {
-		log.Error().Str("Trace Id", traceid).Msg("login first")
+	_, traceIDExists = ctx.Value(auth.Ctxkey).(jwt.RegisteredClaims)
+	if !traceIDExists {
+		log.Error().Str("Trace Id", traceID).Msg("login first")
 		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": http.StatusText(http.StatusUnauthorized)})
 		return
 	}
@@ -34,7 +37,7 @@ func (h *handler) AddCompany(c *gin.Context) {
 
 	err := json.NewDecoder(c.Request.Body).Decode(&companyData)
 	if err != nil {
-		log.Error().Err(err).Str("trace id", traceid)
+		log.Error().Err(err).Str("trace id", traceID)
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error": "please provide valid name and location",
 		})
@@ -43,7 +46,7 @@ func (h *handler) AddCompany(c *gin.Context) {
 	validate := validator.New()
 	err = validate.Struct(companyData)
 	if err != nil {
-		log.Error().Err(err).Str("trace id", traceid)
+		log.Error().Err(err).Str("trace id", traceID)
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error": "please provide valid name and location",
 		})
@@ -52,7 +55,7 @@ func (h *handler) AddCompany(c *gin.Context) {
 
 	companyData, err = h.service.AddCompanyDetails(ctx, companyData)
 	if err != nil {
-		log.Error().Err(err).Str("trace id", traceid)
+		log.Error().Err(err).Str("trace id", traceID)
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
@@ -62,19 +65,21 @@ func (h *handler) AddCompany(c *gin.Context) {
 	c.JSON(http.StatusOK, companyData)
 
 }
-func (h *handler) ViewCompany(c *gin.Context) {
+
+// ViewCompany handles viewing details of a specific company.
+func (h *handler) FetchCompany(c *gin.Context) {
 	ctx := c.Request.Context()
-	traceid, ok := ctx.Value(middleware.TraceIdKey).(string)
-	if !ok {
+	traceID, traceIDExists := ctx.Value(middleware.TraceIdKey).(string)
+	if !traceIDExists {
 		log.Error().Msg("traceid missing from context")
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
 			"error": http.StatusText(http.StatusInternalServerError),
 		})
 		return
 	}
-	_, ok = ctx.Value(auth.Ctxkey).(jwt.RegisteredClaims)
-	if !ok {
-		log.Error().Str("Trace Id", traceid).Msg("login first")
+	_, traceIDExists = ctx.Value(auth.Ctxkey).(jwt.RegisteredClaims)
+	if !traceIDExists {
+		log.Error().Str("Trace Id", traceID).Msg("login first")
 		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": http.StatusText(http.StatusUnauthorized)})
 		return
 	}
@@ -86,9 +91,9 @@ func (h *handler) ViewCompany(c *gin.Context) {
 		return
 	}
 
-	companyData, err := h.service.ViewCompanyDetails(ctx, cid)
+	companyData, err := h.service.FetchCompanyDetails(ctx, cid)
 	if err != nil {
-		log.Error().Err(err).Str("trace id", traceid)
+		log.Error().Err(err).Str("trace id", traceID)
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
@@ -97,26 +102,28 @@ func (h *handler) ViewCompany(c *gin.Context) {
 
 	c.JSON(http.StatusOK, companyData)
 }
-func (h *handler) ViewAllCompanies(c *gin.Context) {
+
+// ViewAllCompanies lists all available companies.
+func (h *handler) FetchAllCompanies(c *gin.Context) {
 	ctx := c.Request.Context()
-	traceid, ok := ctx.Value(middleware.TraceIdKey).(string)
-	if !ok {
+	traceID, traceIDExists := ctx.Value(middleware.TraceIdKey).(string)
+	if !traceIDExists {
 		log.Error().Msg("traceid missing from context")
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
 			"error": http.StatusText(http.StatusInternalServerError),
 		})
 		return
 	}
-	_, ok = ctx.Value(auth.Ctxkey).(jwt.RegisteredClaims)
-	if !ok {
-		log.Error().Str("Trace Id", traceid).Msg("login first")
+	_, traceIDExists = ctx.Value(auth.Ctxkey).(jwt.RegisteredClaims)
+	if !traceIDExists {
+		log.Error().Str("Trace Id", traceID).Msg("login first")
 		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": http.StatusText(http.StatusUnauthorized)})
 		return
 	}
 
-	companyDetails, err := h.service.ViewAllCompanies(ctx)
+	companyDetails, err := h.service.FetchAllCompanies(ctx)
 	if err != nil {
-		log.Error().Err(err).Str("trace id", traceid)
+		log.Error().Err(err).Str("trace id", traceID)
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})

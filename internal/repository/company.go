@@ -3,11 +3,14 @@ package repository
 import (
 	"context"
 	"errors"
-	"job-port-api/internal/models"
 
 	"github.com/rs/zerolog/log"
+
+	"job-port-api/internal/models"
+
 )
 
+// CreateCompany creates a new company record in the database
 func (r *Repo) CreateCompany(ctx context.Context, companyData models.Company) (models.Company, error) {
 	result := r.DB.Create(&companyData)
 	if result.Error != nil {
@@ -16,21 +19,23 @@ func (r *Repo) CreateCompany(ctx context.Context, companyData models.Company) (m
 	}
 	return companyData, nil
 }
-func (r *Repo) ViewCompany(ctx context.Context, cid uint64) (models.Company, error) {
+
+// FetchCompany retrieves a company record by its unique ID.
+func (r *Repo) FetchCompany(ctx context.Context, cid uint64) (models.Company, error) {
 	var companyData models.Company
 	result := r.DB.Where("id = ?", cid).First(&companyData)
 	if result.Error != nil {
 		log.Info().Err(result.Error).Send()
-		return models.Company{}, errors.New("could not find the company")
+		return models.Company{}, errors.New("Not find the company")
 	}
 	return companyData, nil
 }
-func (r *Repo) ViewAllCompanies(ctx context.Context) ([]models.Company, error) {
+func (r *Repo) FetchAllCompanies(ctx context.Context) ([]models.Company, error) {
 	var userDetails []models.Company
 	result := r.DB.Find(&userDetails)
 	if result.Error != nil {
 		log.Info().Err(result.Error).Send()
-		return nil, errors.New("could not find companires")
+		return nil, errors.New("Not find Any companies")
 	}
 	return userDetails, nil
 }
