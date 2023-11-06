@@ -13,6 +13,8 @@ type Service struct {
 	a        auth.TokenAuth
 }
 
+//go:generate mockgen -source=service.go -destination=service_mock.go -package=service
+
 type UserService interface {
 	UserSignup(ctx context.Context, userData models.UserSignup) (models.User, error)
 	UserLogin(ctx context.Context, userData models.UserLogin) (string, error)
