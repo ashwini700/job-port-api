@@ -22,6 +22,31 @@ type MockUserRepo struct {
 	recorder *MockUserRepoMockRecorder
 }
 
+// FetchAllCompanies implements UserRepo.
+func (*MockUserRepo) FetchAllCompanies(ctx context.Context) ([]models.Company, error) {
+	panic("unimplemented")
+}
+
+// FetchCompany implements UserRepo.
+func (*MockUserRepo) FetchCompany(ctx context.Context, cid uint64) (models.Company, error) {
+	panic("unimplemented")
+}
+
+// FetchJobByCompanyId implements UserRepo.
+func (*MockUserRepo) FetchJobByCompanyId(ctx context.Context, cid uint64) ([]models.Job, error) {
+	panic("unimplemented")
+}
+
+// FetchJobPosts implements UserRepo.
+func (*MockUserRepo) FetchJobPosts(ctx context.Context) ([]models.Job, error) {
+	panic("unimplemented")
+}
+
+// Fetchjob implements UserRepo.
+func (*MockUserRepo) Fetchjob(ctx context.Context, cid uint64) (models.Job, error) {
+	panic("unimplemented")
+}
+
 // MockUserRepoMockRecorder is the mock recorder for MockUserRepo.
 type MockUserRepoMockRecorder struct {
 	mock *MockUserRepo
