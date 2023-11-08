@@ -29,12 +29,13 @@ func API(a auth.TokenAuth, sc service.UserService) *gin.Engine {
 	r.POST("/register", h.SignUp)
 	r.POST("/login", h.Login)
 	r.POST("/Addcomp", m.Authenticate(h.AddCompany))
-	r.GET("/FetchCompByid/{id}", m.Authenticate(h.FetchCompany))
+	r.GET("/FetchCompByid/:id", m.Authenticate(h.FetchCompanyById))
 	r.GET("/Allcomp", m.Authenticate(h.FetchAllCompanies))
-	r.POST("/Addjobs", m.Authenticate(h.AddJob))
-	r.GET("/FetchjobsBycompid", m.Authenticate(h.FetchJobByCompanyId))
+	//
+	r.POST("/Addjobs/:id/jobs", m.Authenticate(h.AddJob))
+	r.GET("/FetchJobsBycompid/:id", m.Authenticate(h.FetchJobByCompanyId))
 	r.GET("/jobs/Alljobs", m.Authenticate(h.FetchAllJobs))
-	r.GET("/jobs/FetchjobsByid/{id}", m.Authenticate(h.FetchJobByCompanyId))
+	r.GET("/jobs/FetchjobsByid/:id", m.Authenticate(h.FetchJobByCompanyId))
 
 	return r
 }

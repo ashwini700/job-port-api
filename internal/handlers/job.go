@@ -37,7 +37,7 @@ func (h *handler) FetchJobById(c *gin.Context) {
 		c.AbortWithStatusJSON(http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
 	}
 
-	jobData, err := h.service.FetchJobDetailsById(ctx, cid)
+	jobData, err := h.service.FetchJobByCompId(ctx, cid)
 	if err != nil {
 		log.Error().Err(err).Str("trace id", traceID)
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
@@ -131,7 +131,7 @@ func (h *handler) AddJob(c *gin.Context) {
 		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": http.StatusText(http.StatusUnauthorized)})
 		return
 	}
-	var jobData models.Job
+	var jobData models.NewJob
 
 	err := json.NewDecoder(c.Request.Body).Decode(&jobData)
 	if err != nil {
@@ -141,7 +141,14 @@ func (h *handler) AddJob(c *gin.Context) {
 		})
 		return
 	}
-	jobData, err = h.service.AddJob(ctx, jobData)
+	stringCmpnyId := c.Param("id")
+	cid, err := strconv.ParseUint(stringCmpnyId, 10, 64)
+	if err != nil {
+		log.Print("conversion string to int error", err)
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"msg": "error found at conversion.."})
+		return
+	}
+	job, err := h.service.AddJob(ctx, jobData, cid)
 	if err != nil {
 		log.Error().Err(err).Str("trace id", traceID)
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
@@ -149,5 +156,5 @@ func (h *handler) AddJob(c *gin.Context) {
 		})
 		return
 	}
-	c.JSON(http.StatusOK, jobData)
+	c.JSON(http.StatusOK, job)
 }

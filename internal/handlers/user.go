@@ -33,7 +33,7 @@ type NewHandler interface {
 	FetchJobByCompanyId(c *gin.Context)
 	AddJob(c *gin.Context)
 	AddCompany(c *gin.Context)
-	FetchCompany(c *gin.Context)
+	FetchCompanyById(c *gin.Context)
 	FetchAllCompanies(c *gin.Context)
 }
 

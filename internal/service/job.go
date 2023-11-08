@@ -4,17 +4,31 @@ import (
 	"context"
 
 	"job-port-api/internal/models"
-
 )
 
-func (s *Service) AddJob(ctx context.Context, jobData models.Job) (models.Job, error) {
-	jobData, err := s.UserRepo.CreateJob(ctx, jobData)
+func (s *Service) AddJob(ctx context.Context, jobData models.NewJob, cid uint64) (models.Job, error) {
+	jobDetails:= models.Job{
+		CompanyId:       uint64(cid),
+		JobRole:         jobData.JobRole,
+		Salary:          jobData.Salary,
+		MinNotice:       jobData.MinNotice,
+		MaxNotice:       jobData.MaxNotice,
+		Budget:          jobData.Budget,
+		JobLocations:    jobData.JobLocations,
+		TechnologyStack: jobData.TechnologyStack,
+		Description:     jobData.Description,
+		MinExp:          jobData.MinExp,
+		MaxMax:          jobData.MaxMax,
+		Qualification:   jobData.Qualification,
+	}
+
+	jobDetails, err := s.UserRepo.AddJob(jobDetails)
 	if err != nil {
 		return models.Job{}, err
 	}
-	return jobData, nil
+	return jobDetails, nil
 }
-func (s *Service) FetchJobDetailsById(ctx context.Context, cid uint64) (models.Job, error) {
+func (s *Service) FetchJobByCompId(ctx context.Context, cid uint64) (models.Job, error) {
 	jobData, err := s.UserRepo.Fetchjob(ctx, cid)
 	if err != nil {
 		return models.Job{}, err

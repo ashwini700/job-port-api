@@ -52,7 +52,7 @@ func (h *handler) AddCompany(c *gin.Context) {
 		return
 	}
 
-	companyData, err = h.service.AddCompanyDetails(ctx, companyData)
+	companyData, err = h.service.AddCompany(ctx, companyData)
 	if err != nil {
 		log.Error().Err(err).Str("trace id", traceID)
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
@@ -66,7 +66,7 @@ func (h *handler) AddCompany(c *gin.Context) {
 }
 
 // ViewCompany handles viewing details of a specific company.
-func (h *handler) FetchCompany(c *gin.Context) {
+func (h *handler) FetchCompanyById(c *gin.Context) {
 	ctx := c.Request.Context()
 	traceID, traceIDExists := ctx.Value(middleware.TraceIdKey).(string)
 	if !traceIDExists {
@@ -90,7 +90,7 @@ func (h *handler) FetchCompany(c *gin.Context) {
 		return
 	}
 
-	companyData, err := h.service.FetchCompByid(ctx, cid)
+	companyData, err := h.service.FetchCompByid(cid)
 	if err != nil {
 		log.Error().Err(err).Str("trace id", traceID)
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
@@ -120,7 +120,7 @@ func (h *handler) FetchAllCompanies(c *gin.Context) {
 		return
 	}
 
-	companyDetails, err := h.service.FetchAllCompanies(ctx)
+	companyDetails, err := h.service.FetchAllCompanies()
 	if err != nil {
 		log.Error().Err(err).Str("trace id", traceID)
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
@@ -131,3 +131,30 @@ func (h *handler) FetchAllCompanies(c *gin.Context) {
 
 	c.JSON(http.StatusOK, companyDetails)
 }
+
+// func (h *handler) FetchCompanyById(c *gin.Context) {
+// 	ctx := c.Request.Context()
+// 	traceId, ok := ctx.Value(middleware.TraceIdKey).(string)
+// 	if !ok {
+// 		log.Error().Msg("traceId missing from context")
+// 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"msg": http.StatusText(http.StatusInternalServerError)})
+// 		return
+// 	}
+// 	stringCmpnyId := c.Param("id")
+// 	cid, err := strconv.ParseUint(stringCmpnyId, 10, 64)
+// 	if err != nil {
+
+// 		log.Print("conversion string to int error", err)
+// 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"msg": "error found at conversion.."})
+// 		return
+
+// 	}
+// 	companyData, err := h.service.FetchCompByid(cid)
+// 	if err != nil {
+// 		log.Error().Err(err).Str("Trace Id", traceId).Msg("problem in fetching company by id")
+// 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"msg": "failed to get company details by id"})
+// 		return
+// 	}
+// 	// If everything goes right, respond with the created user
+// 	c.JSON(http.StatusOK, companyData)
+// }

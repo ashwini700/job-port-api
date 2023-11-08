@@ -7,7 +7,6 @@ import (
 	"github.com/rs/zerolog/log"
 
 	"job-port-api/internal/models"
-
 )
 
 func (r *Repo) Fetchjob(ctx context.Context, cid uint64) (models.Job, error) {
@@ -34,7 +33,7 @@ func (r *Repo) FetchJobPosts(ctx context.Context) ([]models.Job, error) {
 
 func (r *Repo) FetchJobByCompanyId(ctx context.Context, cid uint64) ([]models.Job, error) {
 	var jobDetails []models.Job
-	result := r.DB.Where("cid = ?", cid).Find(&jobDetails)
+	result := r.DB.Where("company_id = ?", cid).Find(&jobDetails)
 	if result.Error != nil {
 		log.Info().Err(result.Error).Send()
 		return nil, errors.New("could not find job for the cid")
@@ -43,7 +42,7 @@ func (r *Repo) FetchJobByCompanyId(ctx context.Context, cid uint64) ([]models.Jo
 
 }
 
-func (r *Repo) CreateJob(ctx context.Context, jobData models.Job) (models.Job, error) {
+func (r *Repo) AddJob(jobData models.Job) (models.Job, error) {
 	result := r.DB.Create(&jobData)
 	if result.Error != nil {
 		log.Info().Err(result.Error).Send()

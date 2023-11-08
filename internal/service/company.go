@@ -6,22 +6,22 @@ import (
 	"job-port-api/internal/models"
 )
 
-func (s *Service) AddCompanyDetails(ctx context.Context, companyData models.Company) (models.Company, error) {
+func (s *Service) AddCompany(ctx context.Context, companyData models.Company) (models.Company, error) {
 	companyData, err := s.UserRepo.CreateCompany(ctx, companyData)
 	if err != nil {
 		return models.Company{}, err
 	}
 	return companyData, nil
 }
-func (s *Service) FetchCompByid(ctx context.Context, cid uint64) (models.Company, error) {
-	companyData, err := s.UserRepo.FetchCompany(ctx, cid)
+func (s *Service) FetchCompByid(cid uint64) (models.Company, error) {
+	companyData, err := s.UserRepo.FetchCompByid(cid)
 	if err != nil {
 		return models.Company{}, err
 	}
 	return companyData, nil
 }
-func (s *Service) FetchAllCompanies(ctx context.Context) ([]models.Company, error) {
-	companyDetails, err := s.UserRepo.FetchAllCompanies(ctx)
+func (s *Service) FetchAllCompanies() ([]models.Company, error) {
+	companyDetails, err := s.UserRepo.FetchAllCompanies()
 	if err != nil {
 		return nil, err
 	}

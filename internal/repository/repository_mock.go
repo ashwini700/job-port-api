@@ -22,6 +22,11 @@ type MockUserRepo struct {
 	recorder *MockUserRepoMockRecorder
 }
 
+// FetchCompanyByid implements UserRepo.
+func (*MockUserRepo) FetchCompanyByid(ctx context.Context, cid uint64) (models.Company, error) {
+	panic("unimplemented")
+}
+
 // // FetchAllCompanies implements UserRepo.
 // func (*MockUserRepo) FetchAllCompanies(ctx context.Context) ([]models.Company, error) {
 // 	panic("unimplemented")

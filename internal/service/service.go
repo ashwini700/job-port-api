@@ -19,13 +19,13 @@ type Service struct {
 type UserService interface {
 	UserSignup(ctx context.Context, userData models.UserSignup) (models.User, error)
 	UserLogin(ctx context.Context, userData models.UserLogin) (string, error)
-	AddCompanyDetails(ctx context.Context, companyData models.Company) (models.Company, error)
-	FetchCompByid(ctx context.Context, cid uint64) (models.Company, error)
-	FetchAllCompanies(ctx context.Context) ([]models.Company, error)
-	AddJob(ctx context.Context, jobData models.Job) (models.Job, error)
+	AddCompany(ctx context.Context, companyData models.Company) (models.Company, error)
+	FetchCompByid(cid uint64) (models.Company, error)
+	FetchAllCompanies() ([]models.Company, error)
+	AddJob(ctx context.Context, jobData models.NewJob, cid uint64) (models.Job, error)
 	FetchJobDetails(ctx context.Context, cid uint64) ([]models.Job, error)
 	FetchJobPosts(ctx context.Context) ([]models.Job, error)
-	FetchJobDetailsById(ctx context.Context, cid uint64) (models.Job, error)
+	FetchJobByCompId(ctx context.Context, cid uint64) (models.Job, error)
 }
 
 func NewService(userRepo repository.UserRepo, a auth.TokenAuth) (UserService, error) {

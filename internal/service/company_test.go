@@ -13,7 +13,7 @@ import (
 	"job-port-api/internal/repository"
 )
 
-func TestService_AddCompanyDetails(t *testing.T) {
+func TestService_AddCompany(t *testing.T) {
 	type args struct {
 		ctx         context.Context
 		companyData models.Company
