@@ -7,7 +7,7 @@ import (
 
 )
 
-func (s *Service) AddJobDetails(ctx context.Context, jobData models.Job) (models.Job, error) {
+func (s *Service) AddJob(ctx context.Context, jobData models.Job) (models.Job, error) {
 	jobData, err := s.UserRepo.CreateJob(ctx, jobData)
 	if err != nil {
 		return models.Job{}, err

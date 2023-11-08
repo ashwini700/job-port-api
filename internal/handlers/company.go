@@ -13,7 +13,6 @@ import (
 	"job-port-api/internal/auth"
 	"job-port-api/internal/middleware"
 	"job-port-api/internal/models"
-
 )
 
 // AddCompany handles the addition of a company
@@ -91,7 +90,7 @@ func (h *handler) FetchCompany(c *gin.Context) {
 		return
 	}
 
-	companyData, err := h.service.FetchCompanyDetails(ctx, cid)
+	companyData, err := h.service.FetchCompByid(ctx, cid)
 	if err != nil {
 		log.Error().Err(err).Str("trace id", traceID)
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{

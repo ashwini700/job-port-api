@@ -9,7 +9,6 @@ import (
 	"job-port-api/internal/auth"
 	"job-port-api/internal/middleware"
 	"job-port-api/internal/service"
-
 )
 
 func API(a auth.TokenAuth, sc service.UserService) *gin.Engine {
@@ -29,13 +28,13 @@ func API(a auth.TokenAuth, sc service.UserService) *gin.Engine {
 	r.GET("/check", m.Authenticate((check)))
 	r.POST("/register", h.SignUp)
 	r.POST("/login", h.Login)
-	r.POST("/companies/Addcomp", m.Authenticate(h.AddCompany))
-	r.GET("/companies/viewCompByid/{id}", m.Authenticate(h.FetchCompany))
-	r.GET("/companies/Allcomp", m.Authenticate(h.FetchAllCompanies))
-	r.POST("/companies/{cid}/Addjobs", m.Authenticate(h.AddJob))
-	r.GET("/companies/{cid}/ViewjobsBycompid", m.Authenticate(h.FetchJobByCompanyId))
+	r.POST("/Addcomp", m.Authenticate(h.AddCompany))
+	r.GET("/FetchCompByid/{id}", m.Authenticate(h.FetchCompany))
+	r.GET("/Allcomp", m.Authenticate(h.FetchAllCompanies))
+	r.POST("/Addjobs", m.Authenticate(h.AddJob))
+	r.GET("/FetchjobsBycompid", m.Authenticate(h.FetchJobByCompanyId))
 	r.GET("/jobs/Alljobs", m.Authenticate(h.FetchAllJobs))
-	r.GET("/jobs/viewjobsByid/{id}", m.Authenticate(h.FetchJobByCompanyId))
+	r.GET("/jobs/FetchjobsByid/{id}", m.Authenticate(h.FetchJobByCompanyId))
 
 	return r
 }

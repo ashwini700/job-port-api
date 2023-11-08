@@ -13,7 +13,7 @@ func (s *Service) AddCompanyDetails(ctx context.Context, companyData models.Comp
 	}
 	return companyData, nil
 }
-func (s *Service) FetchCompanyDetails(ctx context.Context, cid uint64) (models.Company, error) {
+func (s *Service) FetchCompByid(ctx context.Context, cid uint64) (models.Company, error) {
 	companyData, err := s.UserRepo.FetchCompany(ctx, cid)
 	if err != nil {
 		return models.Company{}, err

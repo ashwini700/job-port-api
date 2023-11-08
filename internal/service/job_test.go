@@ -13,7 +13,7 @@ import (
 	"job-port-api/internal/repository"
 )
 
-func TestService_AddJobDetails(t *testing.T) {
+func TestService_AddJob(t *testing.T) {
 	type args struct {
 		ctx     context.Context
 		jobData models.Job
@@ -69,13 +69,13 @@ func TestService_AddJobDetails(t *testing.T) {
 				mockRepo.EXPECT().CreateJob(tt.args.ctx, tt.args.jobData).Return(tt.mockRepoResponse()).AnyTimes()
 			}
 			s, _ := NewService(mockRepo, &auth.Auth{})
-			got, err := s.AddJobDetails(tt.args.ctx, tt.args.jobData)
+			got, err := s.AddJob(tt.args.ctx, tt.args.jobData)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("Service.AddJobDetails() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("Service.AddJob() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Service.AddJobDetails() = %v, want %v", got, tt.want)
+				t.Errorf("Service.AddJob() = %v, want %v", got, tt.want)
 			}
 		})
 	}

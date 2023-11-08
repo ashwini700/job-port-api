@@ -22,6 +22,16 @@ type MockUserService struct {
 	recorder *MockUserServiceMockRecorder
 }
 
+// AddJob implements UserService.
+func (*MockUserService) AddJob(ctx context.Context, jobData models.Job) (models.Job, error) {
+	panic("unimplemented")
+}
+
+// FetchCompByid implements UserService.
+func (*MockUserService) FetchCompByid(ctx context.Context, cid uint64) (models.Company, error) {
+	panic("unimplemented")
+}
+
 // FetchAllCompanies implements UserService.
 func (*MockUserService) FetchAllCompanies(ctx context.Context) ([]models.Company, error) {
 	panic("unimplemented")

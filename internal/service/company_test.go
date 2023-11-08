@@ -126,11 +126,11 @@ func TestService_FetchCompanyDetails(t *testing.T) {
 			mc := gomock.NewController(t)
 			mockRepo := repository.NewMockUserRepo(mc)
 			if tt.mockRepoResponse != nil {
-				mockRepo.EXPECT().ViewCompany(tt.args.ctx, tt.args.cid).Return(tt.mockRepoResponse()).AnyTimes()
+				mockRepo.EXPECT().FetchCompany(tt.args.ctx, tt.args.cid).Return(tt.mockRepoResponse()).AnyTimes()
 			}
 			s, _ := NewService(mockRepo, &auth.Auth{})
 
-			got, err := s.FetchCompanyDetails(tt.args.ctx, tt.args.cid)
+			got, err := s.FetchCompByid(tt.args.ctx, tt.args.cid)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Service.ViewCompanyDetails() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -199,7 +199,7 @@ func TestService_FetchAllCompanies(t *testing.T) {
 			mc := gomock.NewController(t)
 			mockRepo := repository.NewMockUserRepo(mc)
 			if tt.mockRepoResponse != nil {
-				mockRepo.EXPECT().ViewAllCompanies(tt.args.ctx).Return(tt.mockRepoResponse()).AnyTimes()
+				mockRepo.EXPECT().FetchAllCompanies(tt.args.ctx).Return(tt.mockRepoResponse()).AnyTimes()
 			}
 			s, _ := NewService(mockRepo, &auth.Auth{})
 

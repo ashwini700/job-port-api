@@ -141,7 +141,7 @@ func (h *handler) AddJob(c *gin.Context) {
 		})
 		return
 	}
-	jobData, err = h.service.AddJobDetails(ctx, jobData)
+	jobData, err = h.service.AddJob(ctx, jobData)
 	if err != nil {
 		log.Error().Err(err).Str("trace id", traceID)
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{

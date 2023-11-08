@@ -22,15 +22,15 @@ type MockUserRepo struct {
 	recorder *MockUserRepoMockRecorder
 }
 
-// FetchAllCompanies implements UserRepo.
-func (*MockUserRepo) FetchAllCompanies(ctx context.Context) ([]models.Company, error) {
-	panic("unimplemented")
-}
+// // FetchAllCompanies implements UserRepo.
+// func (*MockUserRepo) FetchAllCompanies(ctx context.Context) ([]models.Company, error) {
+// 	panic("unimplemented")
+// }
 
 // FetchCompany implements UserRepo.
-func (*MockUserRepo) FetchCompany(ctx context.Context, cid uint64) (models.Company, error) {
-	panic("unimplemented")
-}
+// func (*MockUserRepo) FetchCompany(ctx context.Context, cid uint64) (models.Company, error) {
+// 	panic("unimplemented")
+// }
 
 // FetchJobByCompanyId implements UserRepo.
 func (*MockUserRepo) FetchJobByCompanyId(ctx context.Context, cid uint64) ([]models.Job, error) {
@@ -125,7 +125,7 @@ func (mr *MockUserRepoMockRecorder) CreateUser(userData any) *gomock.Call {
 }
 
 // ViewAllCompanies mocks base method.
-func (m *MockUserRepo) ViewAllCompanies(ctx context.Context) ([]models.Company, error) {
+func (m *MockUserRepo) FetchAllCompanies(ctx context.Context) ([]models.Company, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ViewAllCompanies", ctx)
 	ret0, _ := ret[0].([]models.Company)
@@ -134,13 +134,13 @@ func (m *MockUserRepo) ViewAllCompanies(ctx context.Context) ([]models.Company, 
 }
 
 // ViewAllCompanies indicates an expected call of ViewAllCompanies.
-func (mr *MockUserRepoMockRecorder) ViewAllCompanies(ctx any) *gomock.Call {
+func (mr *MockUserRepoMockRecorder) FetchAllCompanies(ctx any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ViewAllCompanies", reflect.TypeOf((*MockUserRepo)(nil).ViewAllCompanies), ctx)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ViewAllCompanies", reflect.TypeOf((*MockUserRepo)(nil).FetchAllCompanies), ctx)
 }
 
 // ViewCompany mocks base method.
-func (m *MockUserRepo) ViewCompany(ctx context.Context, cid uint64) (models.Company, error) {
+func (m *MockUserRepo) FetchCompany(ctx context.Context, cid uint64) (models.Company, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ViewCompany", ctx, cid)
 	ret0, _ := ret[0].(models.Company)
@@ -149,9 +149,9 @@ func (m *MockUserRepo) ViewCompany(ctx context.Context, cid uint64) (models.Comp
 }
 
 // ViewCompany indicates an expected call of ViewCompany.
-func (mr *MockUserRepoMockRecorder) ViewCompany(ctx, cid any) *gomock.Call {
+func (mr *MockUserRepoMockRecorder) FetchCompany(ctx, cid any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ViewCompany", reflect.TypeOf((*MockUserRepo)(nil).ViewCompany), ctx, cid)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ViewCompany", reflect.TypeOf((*MockUserRepo)(nil).FetchCompany), ctx, cid)
 }
 
 // ViewJobByCid mocks base method.

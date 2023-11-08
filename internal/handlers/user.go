@@ -32,9 +32,9 @@ type NewHandler interface {
 	FetchAllJobs(c *gin.Context)
 	FetchJobByCompanyId(c *gin.Context)
 	AddJob(c *gin.Context)
-	FetchAllCompanies(c *gin.Context)
 	AddCompany(c *gin.Context)
 	FetchCompany(c *gin.Context)
+	FetchAllCompanies(c *gin.Context)
 }
 
 func (h *handler) Login(c *gin.Context) {
