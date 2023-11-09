@@ -22,36 +22,6 @@ type MockUserRepo struct {
 	recorder *MockUserRepoMockRecorder
 }
 
-// FetchCompanyByid implements UserRepo.
-func (*MockUserRepo) FetchCompanyByid(ctx context.Context, cid uint64) (models.Company, error) {
-	panic("unimplemented")
-}
-
-// // FetchAllCompanies implements UserRepo.
-// func (*MockUserRepo) FetchAllCompanies(ctx context.Context) ([]models.Company, error) {
-// 	panic("unimplemented")
-// }
-
-// FetchCompany implements UserRepo.
-// func (*MockUserRepo) FetchCompany(ctx context.Context, cid uint64) (models.Company, error) {
-// 	panic("unimplemented")
-// }
-
-// FetchJobByCompanyId implements UserRepo.
-func (*MockUserRepo) FetchJobByCompanyId(ctx context.Context, cid uint64) ([]models.Job, error) {
-	panic("unimplemented")
-}
-
-// FetchJobPosts implements UserRepo.
-func (*MockUserRepo) FetchJobPosts(ctx context.Context) ([]models.Job, error) {
-	panic("unimplemented")
-}
-
-// Fetchjob implements UserRepo.
-func (*MockUserRepo) Fetchjob(ctx context.Context, cid uint64) (models.Job, error) {
-	panic("unimplemented")
-}
-
 // MockUserRepoMockRecorder is the mock recorder for MockUserRepo.
 type MockUserRepoMockRecorder struct {
 	mock *MockUserRepo
@@ -67,6 +37,36 @@ func NewMockUserRepo(ctrl *gomock.Controller) *MockUserRepo {
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockUserRepo) EXPECT() *MockUserRepoMockRecorder {
 	return m.recorder
+}
+
+// AddJob mocks base method.
+func (m *MockUserRepo) AddJob(jobData models.Job) (models.Job, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AddJob", jobData)
+	ret0, _ := ret[0].(models.Job)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// AddJob indicates an expected call of AddJob.
+func (mr *MockUserRepoMockRecorder) AddJob(jobData any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddJob", reflect.TypeOf((*MockUserRepo)(nil).AddJob), jobData)
+}
+
+// ApplicantsFilter mocks base method.
+func (m *MockUserRepo) ApplicantsFilter(jobId uint) (*models.Job, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ApplicantsFilter", jobId)
+	ret0, _ := ret[0].(*models.Job)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ApplicantsFilter indicates an expected call of ApplicantsFilter.
+func (mr *MockUserRepoMockRecorder) ApplicantsFilter(jobId any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ApplicantsFilter", reflect.TypeOf((*MockUserRepo)(nil).ApplicantsFilter), jobId)
 }
 
 // CheckEmail mocks base method.
@@ -99,21 +99,6 @@ func (mr *MockUserRepoMockRecorder) CreateCompany(ctx, companyData any) *gomock.
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateCompany", reflect.TypeOf((*MockUserRepo)(nil).CreateCompany), ctx, companyData)
 }
 
-// CreateJob mocks base method.
-func (m *MockUserRepo) CreateJob(ctx context.Context, jobData models.Job) (models.Job, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateJob", ctx, jobData)
-	ret0, _ := ret[0].(models.Job)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// CreateJob indicates an expected call of CreateJob.
-func (mr *MockUserRepoMockRecorder) CreateJob(ctx, jobData any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateJob", reflect.TypeOf((*MockUserRepo)(nil).CreateJob), ctx, jobData)
-}
-
 // CreateUser mocks base method.
 func (m *MockUserRepo) CreateUser(userData models.User) (models.User, error) {
 	m.ctrl.T.Helper()
@@ -129,77 +114,77 @@ func (mr *MockUserRepoMockRecorder) CreateUser(userData any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUser", reflect.TypeOf((*MockUserRepo)(nil).CreateUser), userData)
 }
 
-// ViewAllCompanies mocks base method.
-func (m *MockUserRepo) FetchAllCompanies(ctx context.Context) ([]models.Company, error) {
+// FetchAllCompanies mocks base method.
+func (m *MockUserRepo) FetchAllCompanies() ([]models.Company, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ViewAllCompanies", ctx)
+	ret := m.ctrl.Call(m, "FetchAllCompanies")
 	ret0, _ := ret[0].([]models.Company)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// ViewAllCompanies indicates an expected call of ViewAllCompanies.
-func (mr *MockUserRepoMockRecorder) FetchAllCompanies(ctx any) *gomock.Call {
+// FetchAllCompanies indicates an expected call of FetchAllCompanies.
+func (mr *MockUserRepoMockRecorder) FetchAllCompanies() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ViewAllCompanies", reflect.TypeOf((*MockUserRepo)(nil).FetchAllCompanies), ctx)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchAllCompanies", reflect.TypeOf((*MockUserRepo)(nil).FetchAllCompanies))
 }
 
-// ViewCompany mocks base method.
-func (m *MockUserRepo) FetchCompany(ctx context.Context, cid uint64) (models.Company, error) {
+// FetchCompByid mocks base method.
+func (m *MockUserRepo) FetchCompByid(cid uint64) (models.Company, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ViewCompany", ctx, cid)
+	ret := m.ctrl.Call(m, "FetchCompByid", cid)
 	ret0, _ := ret[0].(models.Company)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// ViewCompany indicates an expected call of ViewCompany.
-func (mr *MockUserRepoMockRecorder) FetchCompany(ctx, cid any) *gomock.Call {
+// FetchCompByid indicates an expected call of FetchCompByid.
+func (mr *MockUserRepoMockRecorder) FetchCompByid(cid any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ViewCompany", reflect.TypeOf((*MockUserRepo)(nil).FetchCompany), ctx, cid)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchCompByid", reflect.TypeOf((*MockUserRepo)(nil).FetchCompByid), cid)
 }
 
-// ViewJobByCid mocks base method.
-func (m *MockUserRepo) ViewJobByCid(ctx context.Context, cid uint64) ([]models.Job, error) {
+// FetchJobByCompanyId mocks base method.
+func (m *MockUserRepo) FetchJobByCompanyId(ctx context.Context, cid uint64) ([]models.Job, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ViewJobByCid", ctx, cid)
+	ret := m.ctrl.Call(m, "FetchJobByCompanyId", ctx, cid)
 	ret0, _ := ret[0].([]models.Job)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// ViewJobByCid indicates an expected call of ViewJobByCid.
-func (mr *MockUserRepoMockRecorder) ViewJobByCid(ctx, cid any) *gomock.Call {
+// FetchJobByCompanyId indicates an expected call of FetchJobByCompanyId.
+func (mr *MockUserRepoMockRecorder) FetchJobByCompanyId(ctx, cid any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ViewJobByCid", reflect.TypeOf((*MockUserRepo)(nil).ViewJobByCid), ctx, cid)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchJobByCompanyId", reflect.TypeOf((*MockUserRepo)(nil).FetchJobByCompanyId), ctx, cid)
 }
 
-// ViewJobPostings mocks base method.
-func (m *MockUserRepo) ViewJobPostings(ctx context.Context) ([]models.Job, error) {
+// FetchJobPosts mocks base method.
+func (m *MockUserRepo) FetchJobPosts(ctx context.Context) ([]models.Job, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ViewJobPostings", ctx)
+	ret := m.ctrl.Call(m, "FetchJobPosts", ctx)
 	ret0, _ := ret[0].([]models.Job)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// ViewJobPostings indicates an expected call of ViewJobPostings.
-func (mr *MockUserRepoMockRecorder) ViewJobPostings(ctx any) *gomock.Call {
+// FetchJobPosts indicates an expected call of FetchJobPosts.
+func (mr *MockUserRepoMockRecorder) FetchJobPosts(ctx any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ViewJobPostings", reflect.TypeOf((*MockUserRepo)(nil).ViewJobPostings), ctx)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchJobPosts", reflect.TypeOf((*MockUserRepo)(nil).FetchJobPosts), ctx)
 }
 
-// Viewjob mocks base method.
-func (m *MockUserRepo) Viewjob(ctx context.Context, cid uint64) (models.Job, error) {
+// Fetchjob mocks base method.
+func (m *MockUserRepo) Fetchjob(ctx context.Context, cid uint64) (models.Job, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Viewjob", ctx, cid)
+	ret := m.ctrl.Call(m, "Fetchjob", ctx, cid)
 	ret0, _ := ret[0].(models.Job)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// Viewjob indicates an expected call of Viewjob.
-func (mr *MockUserRepoMockRecorder) Viewjob(ctx, cid any) *gomock.Call {
+// Fetchjob indicates an expected call of Fetchjob.
+func (mr *MockUserRepoMockRecorder) Fetchjob(ctx, cid any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Viewjob", reflect.TypeOf((*MockUserRepo)(nil).Viewjob), ctx, cid)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Fetchjob", reflect.TypeOf((*MockUserRepo)(nil).Fetchjob), ctx, cid)
 }

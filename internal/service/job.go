@@ -18,7 +18,7 @@ func (s *Service) AddJob(ctx context.Context, jobData models.NewJob, cid uint64)
 		TechnologyStack: jobData.TechnologyStack,
 		Description:     jobData.Description,
 		MinExp:          jobData.MinExp,
-		MaxMax:          jobData.MaxMax,
+		MaxExp:          jobData.MaxExp,
 		Qualification:   jobData.Qualification,
 	}
 

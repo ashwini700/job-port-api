@@ -67,7 +67,7 @@ func Test_handler_AddJob(t *testing.T) {
 
 				mc := gomock.NewController(t)
 				ms := service.NewMockUserService(mc)
-				ms.EXPECT().AddJobDetails(gomock.Any(), gomock.Any()).Return(models.Job{}, nil).AnyTimes()
+				ms.EXPECT().FetchJobDetails(gomock.Any(), gomock.Any()).Return(models.Job{}, nil).AnyTimes()
 
 				return c, rr, ms
 			},

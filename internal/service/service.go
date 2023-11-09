@@ -26,6 +26,7 @@ type UserService interface {
 	FetchJobDetails(ctx context.Context, cid uint64) ([]models.Job, error)
 	FetchJobPosts(ctx context.Context) ([]models.Job, error)
 	FetchJobByCompId(ctx context.Context, cid uint64) (models.Job, error)
+	ApplicantsFilter(ctx context.Context, applicantList []models.ApplicantsRequest) ([]models.ApplicantsResponse, error)
 }
 
 func NewService(userRepo repository.UserRepo, a auth.TokenAuth) (UserService, error) {

@@ -67,7 +67,7 @@ func TestService_AddCompany(t *testing.T) {
 		}
 		s, _ := NewService(mockRepo, &auth.Auth{})
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := s.AddCompanyDetails(tt.args.ctx, tt.args.companyData)
+			got, err := s.AddCompany(tt.args.ctx, tt.args.companyData)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Service.AddCompanyDetails() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -126,11 +126,11 @@ func TestService_FetchCompanyDetails(t *testing.T) {
 			mc := gomock.NewController(t)
 			mockRepo := repository.NewMockUserRepo(mc)
 			if tt.mockRepoResponse != nil {
-				mockRepo.EXPECT().FetchCompany(tt.args.ctx, tt.args.cid).Return(tt.mockRepoResponse()).AnyTimes()
+				mockRepo.EXPECT().FetchAllCompanies().Return(tt.mockRepoResponse()).AnyTimes()
 			}
 			s, _ := NewService(mockRepo, &auth.Auth{})
 
-			got, err := s.FetchCompByid(tt.args.ctx, tt.args.cid)
+			got, err := s.FetchCompByid(tt.args.cid)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Service.ViewCompanyDetails() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -199,11 +199,11 @@ func TestService_FetchAllCompanies(t *testing.T) {
 			mc := gomock.NewController(t)
 			mockRepo := repository.NewMockUserRepo(mc)
 			if tt.mockRepoResponse != nil {
-				mockRepo.EXPECT().FetchAllCompanies(tt.args.ctx).Return(tt.mockRepoResponse()).AnyTimes()
+				mockRepo.EXPECT().FetchAllCompanies().Return(tt.mockRepoResponse()).AnyTimes()
 			}
 			s, _ := NewService(mockRepo, &auth.Auth{})
 
-			got, err := s.FetchAllCompanies(tt.args.ctx)
+			got, err := s.FetchAllCompanies()
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Service.ViewAllCompanies() error = %v, wantErr %v", err, tt.wantErr)
 				return

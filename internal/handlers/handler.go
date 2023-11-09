@@ -35,7 +35,8 @@ func API(a auth.TokenAuth, sc service.UserService) *gin.Engine {
 	r.POST("/Addjobs/:id/jobs", m.Authenticate(h.AddJob))
 	r.GET("/FetchJobsBycompid/:id", m.Authenticate(h.FetchJobByCompanyId))
 	r.GET("/jobs/Alljobs", m.Authenticate(h.FetchAllJobs))
-	r.GET("/jobs/FetchjobsByid/:id", m.Authenticate(h.FetchJobByCompanyId))
+	// r.GET("/jobs/FetchjobsByid/:id", m.Authenticate(h.FetchJobByCompanyId))
+	r.POST("/applicant",m.Authenticate(h.AcceptApplicants))
 
 	return r
 }

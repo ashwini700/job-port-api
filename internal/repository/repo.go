@@ -27,6 +27,8 @@ type UserRepo interface {
 	FetchJobByCompanyId(ctx context.Context, cid uint64) ([]models.Job, error)
 	FetchJobPosts(ctx context.Context) ([]models.Job, error)
 	Fetchjob(ctx context.Context, cid uint64) (models.Job, error)
+
+	ApplicantsFilter(jobId uint) (*models.Job, error)
 }
 
 func NewRepository(db *gorm.DB) (UserRepo, error) {

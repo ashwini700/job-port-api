@@ -67,7 +67,7 @@ func Test_handler_AddCompany(t *testing.T) {
 
 				mc := gomock.NewController(t)
 				ms := service.NewMockUserService(mc)
-				ms.EXPECT().AddCompanyDetails(gomock.Any(), gomock.Any()).Return(models.Company{}, nil).AnyTimes()
+				ms.EXPECT().FetchAllCompanies().Return(models.Company{}, nil).AnyTimes()
 
 				return c, rr, ms
 			},

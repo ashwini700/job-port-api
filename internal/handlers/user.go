@@ -18,6 +18,7 @@ type handler struct {
 	service service.UserService
 }
 
+
 func NewHandlerFunc(s service.UserService) (NewHandler, error) {
 	if s == nil {
 		return nil, errors.New("the service cannot be nil")
@@ -35,6 +36,7 @@ type NewHandler interface {
 	AddCompany(c *gin.Context)
 	FetchCompanyById(c *gin.Context)
 	FetchAllCompanies(c *gin.Context)
+	AcceptApplicants(c *gin.Context)
 }
 
 func (h *handler) Login(c *gin.Context) {
